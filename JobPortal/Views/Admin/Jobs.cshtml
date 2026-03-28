@@ -1,0 +1,69 @@
+﻿@model List<JobPortal.Models.Job>
+
+@{
+    ViewData["Title"] = "Manage Jobs";
+}
+
+<div class="container py-4">
+    <h4 class="fw-bold mb-4">
+        <i class="bi bi-briefcase text-primary me-2"></i>
+        All Jobs (@Model.Count)
+    </h4>
+
+    <div class="card">
+        <div class="card-body p-0">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th class="ps-3">Job Title</th>
+                        <th>Employer</th>
+                        <th>Applications</th>
+                        <th>Posted</th>
+                        <th>Status</th>
+                        <th class="text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var job in Model)
+                    {
+                        <tr>
+                            <td class="ps-3">
+                                <p class="fw-semibold mb-0">@job.Title</p>
+                                <small class="text-muted">@job.Location</small>
+                            </td>
+                            <td class="text-muted">@job.Employer?.FullName</td>
+                            <td>
+                                <span class="badge bg-info-subtle text-info">
+                                    @job.Applications.Count
+                                </span>
+                            </td>
+                            <td class="text-muted small">
+                                @job.PostedDate.ToString("dd MMM yyyy")
+                            </td>
+                            <td>
+                                @if (job.IsActive)
+                                {
+                                    <span class="badge bg-success-subtle text-success">
+                                        Active
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger-subtle text-danger">
+                                        Inactive
+                                    </span>
+                                }
+                            </td>
+                            <td class="text-center">
+                                <a asp-action="ToggleJob" asp-route-id="@job.Id"
+                                   class="btn btn-sm btn-outline-@(job.IsActive ? "danger" : "success")">
+                                    @(job.IsActive ? "Deactivate" : "Activate")
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

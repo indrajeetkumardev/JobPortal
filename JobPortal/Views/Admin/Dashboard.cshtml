@@ -1,0 +1,127 @@
+﻿@model List<JobPortal.Models.Job>
+
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="container py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4 class="fw-bold mb-0">
+            ⚙️ Admin Dashboard
+        </h4>
+        <span class="badge bg-danger fs-6">Admin Panel</span>
+    </div>
+
+    <!-- Stats -->
+    <div class="row g-4 mb-4">
+        <div class="col-6 col-md-3">
+            <div class="card stat-card p-3 border-start border-primary border-4">
+                <p class="text-muted small mb-1">Total Users</p>
+                <h3 class="fw-bold mb-0">@ViewBag.TotalUsers</h3>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card stat-card p-3 border-start border-success border-4">
+                <p class="text-muted small mb-1">Total Jobs</p>
+                <h3 class="fw-bold mb-0 text-success">@ViewBag.TotalJobs</h3>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card stat-card p-3 border-start border-warning border-4">
+                <p class="text-muted small mb-1">Active Jobs</p>
+                <h3 class="fw-bold mb-0 text-warning">@ViewBag.ActiveJobs</h3>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card stat-card p-3 border-start border-info border-4">
+                <p class="text-muted small mb-1">Applications</p>
+                <h3 class="fw-bold mb-0 text-info">@ViewBag.TotalApplications</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-6">
+            <a asp-action="Users" class="card p-3 text-decoration-none
+               d-flex flex-row align-items-center gap-3">
+                <i class="bi bi-people-fill text-primary"
+                   style="font-size:2rem"></i>
+                <div>
+                    <h6 class="fw-bold mb-0 text-dark">Manage Users</h6>
+                    <p class="text-muted small mb-0">
+                        Sab users dekho aur manage karo
+                    </p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-6">
+            <a asp-action="Jobs" class="card p-3 text-decoration-none
+               d-flex flex-row align-items-center gap-3">
+                <i class="bi bi-briefcase-fill text-success"
+                   style="font-size:2rem"></i>
+                <div>
+                    <h6 class="fw-bold mb-0 text-dark">Manage Jobs</h6>
+                    <p class="text-muted small mb-0">
+                        Sab jobs dekho, activate/deactivate karo
+                    </p>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Recent Jobs Table -->
+    <div class="card">
+        <div class="card-header bg-white py-3">
+            <h6 class="fw-bold mb-0">
+                <i class="bi bi-clock-history text-primary me-2"></i>
+                Recent Jobs
+            </h6>
+        </div>
+        <div class="card-body p-0">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th class="ps-3">Job</th>
+                        <th>Employer</th>
+                        <th>Applications</th>
+                        <th>Posted</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var job in Model)
+                    {
+                        <tr>
+                            <td class="ps-3 fw-semibold">@job.Title</td>
+                            <td class="text-muted">@job.Employer?.FullName</td>
+                            <td>
+                                <span class="badge bg-primary-subtle text-primary">
+                                    @job.Applications.Count
+                                </span>
+                            </td>
+                            <td class="text-muted small">
+                                @job.PostedDate.ToString("dd MMM yyyy")
+                            </td>
+                            <td>
+                                @if (job.IsActive)
+                                {
+                                    <span class="badge bg-success-subtle text-success">
+                                        Active
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger-subtle text-danger">
+                                        Inactive
+                                    </span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

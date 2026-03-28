@@ -1,0 +1,183 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+<!-- HERO -->
+<div style="background: linear-gradient(135deg, #1e293b 0%, #2563eb 100%);
+            color:white; padding: 80px 0;">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold mb-3">
+            Apna Dream Job Dhundo 🚀
+        </h1>
+        <p class="lead mb-4 text-white-50">
+            Thousands of jobs — Apply karo, Career banao!
+        </p>
+
+        <!-- Search Bar -->
+        <form asp-controller="Home" asp-action="Jobs" method="get"
+              class="row g-2 justify-content-center">
+            <div class="col-md-5">
+                <input type="text" name="search"
+                       class="form-control form-control-lg"
+                       placeholder="Job title ya skills..." />
+            </div>
+            <div class="col-md-3">
+                <input type="text" name="location"
+                       class="form-control form-control-lg"
+                       placeholder="City / Location" />
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-warning btn-lg w-100 fw-bold">
+                    <i class="bi bi-search me-1"></i>Search
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- STATS -->
+<div class="container my-5">
+    <div class="row g-4 text-center">
+        <div class="col-6 col-md-3">
+            <div class="card stat-card p-4">
+                <i class="bi bi-briefcase-fill text-primary mb-2"
+                   style="font-size:2rem"></i>
+                <h3 class="fw-bold">@ViewBag.TotalJobs+</h3>
+                <p class="text-muted mb-0">Active Jobs</p>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card stat-card p-4">
+                <i class="bi bi-building text-success mb-2"
+                   style="font-size:2rem"></i>
+                <h3 class="fw-bold">@ViewBag.TotalEmployers+</h3>
+                <p class="text-muted mb-0">Companies</p>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card stat-card p-4">
+                <i class="bi bi-people-fill text-warning mb-2"
+                   style="font-size:2rem"></i>
+                <h3 class="fw-bold">@ViewBag.TotalSeekers+</h3>
+                <p class="text-muted mb-0">Job Seekers</p>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card stat-card p-4">
+                <i class="bi bi-check-circle-fill text-info mb-2"
+                   style="font-size:2rem"></i>
+                <h3 class="fw-bold">@ViewBag.TotalApplications+</h3>
+                <p class="text-muted mb-0">Applications</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- LATEST JOBS -->
+<div class="container mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4 class="fw-bold mb-0">
+            <i class="bi bi-fire text-danger me-2"></i>Latest Jobs
+        </h4>
+        <a asp-controller="Home" asp-action="Jobs"
+           class="btn btn-outline-primary btn-sm">
+            View All Jobs <i class="bi bi-arrow-right ms-1"></i>
+        </a>
+    </div>
+
+    <div class="row g-3">
+        @foreach (var job in ViewBag.LatestJobs as List<JobPortal.Models.Job>
+                ?? new List<JobPortal.Models.Job>())
+        {
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 p-3">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <!-- Company Initial Circle -->
+                        <div class="rounded-circle bg-primary text-white d-flex
+                                        align-items-center justify-content-center fw-bold"
+                             style="width:45px;height:45px;font-size:1.1rem;
+                                        min-width:45px">
+                            @job.CompanyName[0]
+                        </div>
+                        <span class="badge bg-success-subtle text-success">
+                            @job.JobType
+                        </span>
+                    </div>
+
+                    <h6 class="fw-bold mb-1 mt-2">@job.Title</h6>
+                    <p class="text-muted small mb-2">
+                        <i class="bi bi-building me-1"></i>@job.CompanyName
+                    </p>
+                    <p class="text-muted small mb-3">
+                        <i class="bi bi-geo-alt me-1"></i>@job.Location
+                        <span class="ms-2">
+                            <i class="bi bi-clock me-1"></i>
+                            @job.ExperienceRequired exp
+                        </span>
+                    </p>
+
+                    @if (!string.IsNullOrEmpty(job.SalaryRange))
+                    {
+                        <p class="text-success fw-semibold small mb-3">
+                            <i class="bi bi-currency-rupee"></i>@job.SalaryRange
+                        </p>
+                    }
+
+                    <a asp-controller="Home" asp-action="JobDetail"
+                       asp-route-id="@job.Id"
+                       class="btn btn-outline-primary btn-sm mt-auto">
+                        View Details
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div class="bg-white py-5">
+    <div class="container text-center">
+        <h4 class="fw-bold mb-5">Kaise Kaam Karta Hai?</h4>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="p-3">
+                    <div class="rounded-circle bg-primary text-white d-inline-flex
+                                align-items-center justify-content-center mb-3"
+                         style="width:60px;height:60px;font-size:1.5rem">
+                        1
+                    </div>
+                    <h5 class="fw-bold">Register Karo</h5>
+                    <p class="text-muted">
+                        Job Seeker ya Employer ke roop mein free account banao
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-3">
+                    <div class="rounded-circle bg-success text-white d-inline-flex
+                                align-items-center justify-content-center mb-3"
+                         style="width:60px;height:60px;font-size:1.5rem">
+                        2
+                    </div>
+                    <h5 class="fw-bold">Browse Karo</h5>
+                    <p class="text-muted">
+                        Thousands of jobs mein apni skills ke hisaab se filter karo
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-3">
+                    <div class="rounded-circle bg-warning text-white d-inline-flex
+                                align-items-center justify-content-center mb-3"
+                         style="width:60px;height:60px;font-size:1.5rem">
+                        3
+                    </div>
+                    <h5 class="fw-bold">Apply Karo</h5>
+                    <p class="text-muted">
+                        Ek click mein apply karo aur status track karo
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,100 @@
+﻿@model JobPortal.Models.ViewModels.LoginViewModel
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = "_Layout";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+
+                    <div class="text-center mb-4">
+                        <i class="bi bi-person-circle text-primary"
+                           style="font-size:3rem"></i>
+                        <h4 class="fw-bold mt-2">Welcome Back!</h4>
+                        <p class="text-muted small">
+                            Account mein login karo
+                        </p>
+                    </div>
+
+                    <div asp-validation-summary="ModelOnly"
+                         class="alert alert-danger small py-2"></div>
+
+                    <form asp-action="Login" method="post">
+
+                        <div class="mb-3">
+                            <label asp-for="Email"
+                                   class="form-label fw-semibold"></label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="bi bi-envelope text-muted"></i>
+                                </span>
+                                <input asp-for="Email" class="form-control"
+                                       placeholder="email@example.com" />
+                            </div>
+                            <span asp-validation-for="Email"
+                                  class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Password"
+                                   class="form-label fw-semibold"></label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="bi bi-lock text-muted"></i>
+                                </span>
+                                <input asp-for="Password" class="form-control"
+                                       placeholder="Password" />
+                            </div>
+                            <span asp-validation-for="Password"
+                                  class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="form-check">
+                                <input asp-for="RememberMe"
+                                       class="form-check-input" />
+                                <label asp-for="RememberMe"
+                                       class="form-check-label">
+                                    Remember Me
+                                </label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100 py-2">
+                            <i class="bi bi-box-arrow-in-right me-1"></i>Login
+                        </button>
+
+                    </form>
+
+                    <hr class="my-4" />
+
+                    <div class="text-center">
+                        <p class="text-muted small mb-2">
+                            Account nahi hai?
+                        </p>
+                        <a asp-action="Register"
+                           class="btn btn-outline-primary w-100">
+                            Register Karo — Free!
+                        </a>
+                    </div>
+
+                    <!-- Test Credentials -->
+                    <div class="alert alert-info small mt-3 mb-0 py-2">
+                        <strong>Admin Login:</strong><br />
+                        Email: admin@jobportal.com<br />
+                        Password: Admin@123
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

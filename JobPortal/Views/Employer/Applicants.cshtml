@@ -1,0 +1,120 @@
+﻿@model List<JobPortal.Models.JobApplication>
+
+@{
+    ViewData["Title"] = "Applicants";
+    var job = ViewBag.Job as JobPortal.Models.Job;
+}
+
+<div class="container py-4">
+    <div class="d-flex align-items-center mb-4 gap-3">
+        <a asp-action="MyJobs" class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-arrow-left"></i>
+        </a>
+        <div>
+            <h4 class="fw-bold mb-0">@job?.Title — Applicants</h4>
+            <p class="text-muted small mb-0">
+                @Model.Count applications received
+            </p>
+        </div>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="text-center py-5">
+            <i class="bi bi-people text-muted" style="font-size:4rem"></i>
+            <h5 class="text-muted mt-3">Abhi koi applicant nahi</h5>
+        </div>
+    }
+    else
+    {
+        <div class="row g-3">
+            @foreach (var app in Model)
+            {
+                <div class="col-12">
+                    <div class="card p-3">
+                        <div class="row align-items-center">
+                            <!-- Avatar -->
+                            <div class="col-auto">
+                                <div class="rounded-circle bg-primary text-white
+                                                    d-flex align-items-center
+                                                    justify-content-center fw-bold"
+                                     style="width:45px;height:45px">
+                                    @app.Applicant?.FullName[0]
+                                </div>
+                            </div>
+
+                            <!-- Info -->
+                            <div class="col">
+                                <h6 class="fw-bold mb-1">
+                                    @app.Applicant?.FullName
+                                </h6>
+                                <p class="text-muted small mb-1">
+                                    <i class="bi bi-envelope me-1"></i>
+                                    @app.Applicant?.Email
+                                    @if (!string.IsNullOrEmpty(
+                                                                app.Applicant?.CurrentCity))
+                                    {
+                                        <span class="mx-1">•</span>
+                                        <i class="bi bi-geo-alt me-1"></i>
+                                        @app.Applicant.CurrentCity
+                                    }
+                                </p>
+                                @if (!string.IsNullOrEmpty(app.CoverLetter))
+                                {
+                                    <p class="small text-muted mb-0 fst-italic">
+                                        "@app.CoverLetter.Substring(0,
+                                                                    Math.Min(80, app.CoverLetter.Length))..."
+                        </p>
+                                                }
+                            </div>
+
+                            <!-- Status + Actions -->
+                            <div class="col-auto text-end">
+                                @{
+                                    var c = app.Status switch
+                                    {
+                                        "Pending" => "warning",
+                                        "Reviewed" => "info",
+                                        "Shortlisted" => "success",
+                                        "Rejected" => "danger",
+                                        _ => "secondary"
+                                    };
+                                }
+                                <span class="badge bg-@c-subtle text-@c
+                                                     border border-@c mb-2 d-block">
+                                    @app.Status
+                                </span>
+
+                                <!-- Status Update Buttons -->
+                                <div class="d-flex gap-1">
+                                    <form asp-action="UpdateStatus" method="post">
+                                        <input type="hidden" name="appId"
+                                               value="@app.Id" />
+                                        <input type="hidden" name="status"
+                                               value="Shortlisted" />
+                                        <button type="submit"
+                                                class="btn btn-sm btn-success"
+                                                title="Shortlist">
+                                            <i class="bi bi-check"></i>
+                                        </button>
+                                    </form>
+                                    <form asp-action="UpdateStatus" method="post">
+                                        <input type="hidden" name="appId"
+                                               value="@app.Id" />
+                                        <input type="hidden" name="status"
+                                               value="Rejected" />
+                                        <button type="submit"
+                                                class="btn btn-sm btn-danger"
+                                                title="Reject">
+                                            <i class="bi bi-x"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

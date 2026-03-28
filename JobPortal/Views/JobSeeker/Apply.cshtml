@@ -1,0 +1,68 @@
+﻿@model JobPortal.Models.JobApplication
+
+@{
+    ViewData["Title"] = "Apply";
+    var job = ViewBag.Job as JobPortal.Models.Job;
+}
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+
+            <!-- Job Info Card -->
+            <div class="card p-3 mb-3 border-start border-primary border-4">
+                <h5 class="fw-bold mb-1">@job?.Title</h5>
+                <p class="text-muted mb-0">
+                    <i class="bi bi-building me-1"></i>@job?.CompanyName
+                    <span class="mx-2">•</span>
+                    <i class="bi bi-geo-alt me-1"></i>@job?.Location
+                </p>
+            </div>
+
+            <!-- Application Form -->
+            <div class="card p-4">
+                <h5 class="fw-bold mb-4">
+                    <i class="bi bi-send text-primary me-2"></i>
+                    Apply for this Job
+                </h5>
+
+                <form asp-action="Apply" method="post">
+                    <input type="hidden" asp-for="JobId" />
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">
+                            Cover Letter
+                        </label>
+                        <textarea asp-for="CoverLetter"
+                                  class="form-control" rows="6"
+                                  placeholder="Apne baare mein likho — kyun aap is job ke liye best ho...">
+                        </textarea>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="ResumeUrl"
+                               class="form-label fw-semibold">
+                            Resume Link
+                        </label>
+                        <input asp-for="ResumeUrl" class="form-control"
+                               placeholder="Google Drive ya LinkedIn URL" />
+                        <div class="form-text">
+                            Resume ka link paste karo (Google Drive, etc.)
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary flex-fill">
+                            <i class="bi bi-send me-1"></i>Submit Application
+                        </button>
+                        <a asp-controller="Home" asp-action="JobDetail"
+                           asp-route-id="@job?.Id"
+                           class="btn btn-outline-secondary flex-fill">
+                            Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

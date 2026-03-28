@@ -1,0 +1,160 @@
+﻿@model JobPortal.Models.ViewModels.RegisterViewModel
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+
+                    <div class="text-center mb-4">
+                        <i class="bi bi-person-plus-fill text-primary"
+                           style="font-size:3rem"></i>
+                        <h4 class="fw-bold mt-2">Free Account Banao</h4>
+                        <p class="text-muted small">
+                            Job Seeker ya Employer — choose karo
+                        </p>
+                    </div>
+
+                    <div asp-validation-summary="ModelOnly"
+                         class="alert alert-danger small py-2"></div>
+
+                    <form asp-action="Register" method="post" id="registerForm">
+
+                        <!-- Role Selection — Sabse pehle -->
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">
+                                Main hoon ek...
+                            </label>
+                            <div class="row g-2">
+                                <div class="col-6">
+                                    <input type="radio" class="btn-check"
+                                           asp-for="Role"
+                                           value="JobSeeker"
+                                           id="roleSeeker" />
+                                    <label class="btn btn-outline-primary w-100 py-3"
+                                           for="roleSeeker">
+                                        <i class="bi bi-person-workspace d-block mb-1"
+                                           style="font-size:1.5rem"></i>
+                                        Job Seeker
+                                    </label>
+                                </div>
+                                <div class="col-6">
+                                    <input type="radio" class="btn-check"
+                                           asp-for="Role"
+                                           value="Employer"
+                                           id="roleEmployer" />
+                                    <label class="btn btn-outline-success w-100 py-3"
+                                           for="roleEmployer">
+                                        <i class="bi bi-building d-block mb-1"
+                                           style="font-size:1.5rem"></i>
+                                        Employer
+                                    </label>
+                                </div>
+                            </div>
+                            <span asp-validation-for="Role"
+                                  class="text-danger small"></span>
+                        </div>
+
+                        <!-- Full Name -->
+                        <div class="mb-3">
+                            <label asp-for="FullName"
+                                   class="form-label fw-semibold"></label>
+                            <input asp-for="FullName" class="form-control"
+                                   placeholder="Apna poora naam" />
+                            <span asp-validation-for="FullName"
+                                  class="text-danger small"></span>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="mb-3">
+                            <label asp-for="Email"
+                                   class="form-label fw-semibold"></label>
+                            <input asp-for="Email" class="form-control"
+                                   placeholder="email@example.com" />
+                            <span asp-validation-for="Email"
+                                  class="text-danger small"></span>
+                        </div>
+
+                        <!-- Password -->
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Password"
+                                       class="form-label fw-semibold"></label>
+                                <input asp-for="Password" class="form-control"
+                                       placeholder="Min 6 characters" />
+                                <span asp-validation-for="Password"
+                                      class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="ConfirmPassword"
+                                       class="form-label fw-semibold"></label>
+                                <input asp-for="ConfirmPassword"
+                                       class="form-control"
+                                       placeholder="Password repeat karo" />
+                                <span asp-validation-for="ConfirmPassword"
+                                      class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <!-- Job Seeker Fields -->
+                        <div id="seekerFields" class="d-none">
+                            <div class="mb-3">
+                                <label asp-for="CurrentCity"
+                                       class="form-label fw-semibold"></label>
+                                <input asp-for="CurrentCity" class="form-control"
+                                       placeholder="Tumhari city" />
+                            </div>
+                        </div>
+
+                        <!-- Employer Fields -->
+                        <div id="employerFields" class="d-none">
+                            <div class="mb-3">
+                                <label asp-for="CompanyName"
+                                       class="form-label fw-semibold"></label>
+                                <input asp-for="CompanyName" class="form-control"
+                                       placeholder="Company ka naam" />
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100 py-2 mt-2">
+                            <i class="bi bi-person-check me-1"></i>
+                            Register Karo — Free!
+                        </button>
+
+                    </form>
+
+                    <div class="text-center mt-3">
+                        <p class="text-muted small mb-0">
+                            Already account hai?
+                            <a asp-action="Login">Login karo</a>
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        // Role ke hisaab se extra fields dikhao
+        function toggleFields() {
+            var seeker = document.getElementById('roleSeeker').checked;
+            var employer = document.getElementById('roleEmployer').checked;
+            document.getElementById('seekerFields')
+                .classList.toggle('d-none', !seeker);
+            document.getElementById('employerFields')
+                .classList.toggle('d-none', !employer);
+        }
+        document.getElementById('roleSeeker')
+            .addEventListener('change', toggleFields);
+        document.getElementById('roleEmployer')
+            .addEventListener('change', toggleFields);
+    </script>
+}
